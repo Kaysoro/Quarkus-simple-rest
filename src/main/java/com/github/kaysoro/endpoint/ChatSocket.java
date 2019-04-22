@@ -1,4 +1,4 @@
-package com.github.kaysoro;
+package com.github.kaysoro.endpoint;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,6 +12,7 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.jboss.logging.Logger;
 
 @ServerEndpoint("/chat/{username}")
@@ -43,17 +44,15 @@ public class ChatSocket {
 
     @OnMessage
     public void onMessage(String message, @PathParam("username") String username) {
-        broadcast(">> " + username + ": " + message);
+        broadcast(">> " + username + ": " + StringEscapeUtils.escapeEcmaScript(message));
     }
 
     private void broadcast(String message) {
-        sessions.values().forEach(s -> {
+        sessions.values().forEach(s ->
             s.getAsyncRemote().sendObject(message, result ->  {
-                if (result.getException() != null) {
+                if (result.getException() != null)
                     System.out.println("Unable to send message: " + result.getException());
-                }
-            });
-        });
+            })
+        );
     }
-
 }
