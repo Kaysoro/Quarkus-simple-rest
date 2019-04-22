@@ -5,11 +5,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile -t quarkus/using-websockets .
+# docker build -f src/main/docker/Dockerfile -t Kaysoro/DeckBuilderGame .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/using-websockets
+# docker run -i --rm -p 8080:8080 Kaysoro/DeckBuilderGame
 #
 ###
 FROM registry.fedoraproject.org/fedora-minimal
